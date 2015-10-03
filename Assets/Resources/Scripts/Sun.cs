@@ -7,6 +7,8 @@ public class Sun : MonoBehaviour {
     Rigidbody rBody;
     GameObject[] planets;
     GameObject[] asteroids;
+    float maxVelocity = 30;
+    public float idealMaxVelocity;
 	// Use this for initialization
 	void Start () {
         rBody = GetComponent<Rigidbody>();
@@ -27,13 +29,19 @@ public class Sun : MonoBehaviour {
         }
 
         asteroids = GameObject.FindGameObjectsWithTag("Asteroid");
+        Vector3 planetForce = Vector3.zero;
         foreach (GameObject obj in asteroids) {
             //float planetForceMag = (obj.GetComponent<Rigidbody>().mass * rBody.mass) / Mathf.Pow(2, Vector3.Distance(obj.transform.position, gameObject.transform.position));
-            float planetForceMag = GetGravitationalForce(obj.GetComponent<Rigidbody>().mass, rBody.mass, Vector3.Distance(obj.transform.position, transform.position));
-            Vector3 planetForce = planetForceMag * (gameObject.transform.position - obj.transform.position).normalized;
-            obj.GetComponent<Rigidbody>().AddForce(planetForce);
+            float sunForceMag = GetGravitationalForce(obj.GetComponent<Rigidbody>().mass, rBody.mass, Vector3.Distance(obj.transform.position, transform.position));
+            Vector3 sunForce = sunForceMag * (gameObject.transform.position - obj.transform.position).normalized;
+            foreach (GameObject planet in planets) {
+                float planetForceMagnitude = GetGravitationalForce(planet.GetComponent<Rigidbody>().mass, obj.GetComponent<Rigidbody>().mass, Vector3.Distance(obj.transform.position, planet.transform.position));
+                planetForce += planetForceMagnitude * (planet.transform.position - obj.transform.position).normalized;
+            }
+            obj.GetComponent<Rigidbody>().AddForce(((sunForce + planetForce)/maxVelocity) * idealMaxVelocity);
+            if (obj.GetComponent<Rigidbody>().velocity.magnitude > maxVelocity) maxVelocity = obj.GetComponent<Rigidbody>().velocity.magnitude;
         }
-
+        print(maxVelocity);
     }
 
     void OnTriggerEnter(Collider col) {
@@ -53,6 +61,6 @@ public class Sun : MonoBehaviour {
     }
 
     float GetGravitationalForce(float m1, float m2, float distance) {
-        return (m2 * m1) / Mathf.Pow(2, distance);
+        return 10 + gravityStrength * (m2 * m1) / (Mathf.Pow(2, distance)- 1);
     }
 }

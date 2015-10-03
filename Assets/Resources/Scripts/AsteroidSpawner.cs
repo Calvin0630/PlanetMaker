@@ -24,16 +24,19 @@ public class AsteroidSpawner : MonoBehaviour {
     IEnumerator SpawnAsteroid() {
         if (asteroidSpawning) {
             Vector3 spawnPos;
+            Vector3 initialVelocity;
             //spawns on top or bottom
             int randomInt = Random.Range(0, 1000);
             if ( randomInt % 2 == 0) {
                 //spawn on top
                 if(randomInt % 4 == 0) {
                     spawnPos = new Vector3(Random.Range(-cameraSize.x, cameraSize.x), 1.1f * cameraSize.y, 0);
+                    initialVelocity = Vector3.right * Random.Range(-1, 1);
                 }
                 //spawn on bottom
                 else {
                     spawnPos = new Vector3(Random.Range(-cameraSize.x, cameraSize.x), -1.1f * cameraSize.y, 0);
+                    initialVelocity = Vector3.right * Random.Range(-1, 1);
                 }
             }
             //spawns on left or right
@@ -41,20 +44,19 @@ public class AsteroidSpawner : MonoBehaviour {
                 //spawns on left
                 if ((randomInt - 1) % 4 == 0) {
                     spawnPos = new Vector3(-1.1f * cameraSize.x, Random.Range(-cameraSize.y, cameraSize.y), 0);
+                    initialVelocity = Vector3.up * Random.Range(-1, 1);
                 }
                 //spawns on right
                 else {
                     spawnPos = new Vector3(1.1f * cameraSize.x, Random.Range(-cameraSize.y, cameraSize.y), 0);
+                    initialVelocity = Vector3.up * Random.Range(-1, 1);
                 }
             }
             GameObject asteroidInstance = (GameObject)Instantiate(asteroidPrefab, spawnPos, Quaternion.identity);
-            asteroidInstance.GetComponent<Rigidbody>().velocity = -spawnPos.normalized * 2 + new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), 0) * 2;
+            asteroidInstance.GetComponent<Rigidbody>().velocity = (-spawnPos.normalized + initialVelocity * 10);
         }
         yield return new WaitForSeconds(asteroidSpawnDelay);
         StartCoroutine(SpawnAsteroid());
     }
-
-    void GenerateFrame() {
-
-    }
+    
 }
