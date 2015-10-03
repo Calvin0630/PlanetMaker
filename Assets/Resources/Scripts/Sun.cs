@@ -14,9 +14,16 @@ public class Sun : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         planets = GameObject.FindGameObjectsWithTag("Planet");
+        Vector3 sunToPlanet;
+        Vector3 velocity;
         foreach (GameObject obj in planets) {
-            obj.GetComponent<Rigidbody>().velocity = orbitSpeed * Get2DNormal(obj.transform.position - gameObject.transform.position).normalized/ ((obj.transform.position - gameObject.transform.position).magnitude);
-            print((obj.transform.position - gameObject.transform.position).magnitude);
+            //gets the new velocity
+            sunToPlanet = obj.transform.position - gameObject.transform.position;
+            velocity = orbitSpeed * Get2DNormal(sunToPlanet).normalized / ((sunToPlanet).magnitude);
+            obj.GetComponent<Rigidbody>().velocity = velocity;
+            //obj.GetComponent<Planet>().prevVelocity = velocity;
+            obj.transform.position = gameObject.transform.position + sunToPlanet.normalized * obj.GetComponent<Planet>().distanceFromSun;
+            print("SunToPlanet:  " + (obj.transform.position - gameObject.transform.position).magnitude);
         }
 
         asteroids = GameObject.FindGameObjectsWithTag("Asteroid");

@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Earth : MonoBehaviour {
     Rigidbody rBody;
+    GameObject rocketPrefab;
 	// Use this for initialization
 	void Start () {
         rBody = GetComponent<Rigidbody>();
