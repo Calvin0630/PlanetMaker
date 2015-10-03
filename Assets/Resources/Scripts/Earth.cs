@@ -7,11 +7,14 @@ public class Earth : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         rBody = GetComponent<Rigidbody>();
-        //rBody.velocity = new Vector3(-1, 0, 0);
+        rocketPrefab = (GameObject)Resources.Load("Prefabs/Rocket");
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        if (Input.GetMouseButtonDown(0) && false) {
+
+        }
 	
 	}
 }

@@ -7,7 +7,6 @@ public class Planet : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         distanceFromSun = (gameObject.transform.position - GameObject.FindWithTag("Sun").transform.position).magnitude;
-        print(distanceFromSun);
 	}
 	
 	// Update is called once per frame
