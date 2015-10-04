@@ -12,8 +12,10 @@ public class AsteroidSpawner : MonoBehaviour {
 	void Start () {
         cameraSize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
         FramePrefab = (GameObject)Resources.Load("Prefabs/Frame");
+        GenerateFrame();
         asteroidPrefab = (GameObject) Resources.Load("Prefabs/Asteroid");
         StartCoroutine(SpawnAsteroid());
+        
     }
 
     // Update is called once per frame
@@ -59,4 +61,19 @@ public class AsteroidSpawner : MonoBehaviour {
         StartCoroutine(SpawnAsteroid());
     }
     
+    void GenerateFrame() {
+        //right
+        GameObject frameInstance = (GameObject)Instantiate(FramePrefab, new Vector3(cameraSize.x * 1.5f, 0, 0), Quaternion.identity);
+        frameInstance.transform.localScale = new Vector3(3, 3 * cameraSize.y, 3);
+        //left
+        frameInstance = (GameObject)Instantiate(FramePrefab, new Vector3(cameraSize.x * -1.5f, 0, 0), Quaternion.identity);
+        frameInstance.transform.localScale = new Vector3(3, 3 * cameraSize.y, 3);
+        //top
+        frameInstance = (GameObject)Instantiate(FramePrefab, new Vector3(0, cameraSize.y * 1.5f, 0), Quaternion.identity);
+        frameInstance.transform.localScale = new Vector3(3 *cameraSize.x, 3, 3);
+        //bottom
+        frameInstance = (GameObject)Instantiate(FramePrefab, new Vector3(0, cameraSize.y * -1.5f, 0), Quaternion.identity);
+        frameInstance.transform.localScale = new Vector3(3 * cameraSize.x, 3, 3);
+
+    }
 }
