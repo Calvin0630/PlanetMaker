@@ -2,8 +2,8 @@
 using System.Collections;
 
 public class GravityManager : MonoBehaviour {
+    //should be 1
     public float gravityStrength;
-    public float orbitSpeed;
     GameObject[] planets;
     GameObject[] asteroids;
     // Use this for initialization
@@ -19,7 +19,7 @@ public class GravityManager : MonoBehaviour {
         foreach (GameObject obj in asteroids) {
             foreach (GameObject planet in planets) {
                 float planetForceMagnitude = GetGravitationalForce(planet.GetComponent<Rigidbody>().mass, obj.GetComponent<Rigidbody>().mass, Vector3.Distance(obj.transform.position, planet.transform.position));
-                planetForce += planetForceMagnitude * (planet.transform.position - obj.transform.position).normalized;
+                planetForce += gravityStrength * planetForceMagnitude * (planet.transform.position - obj.transform.position).normalized;
             }
             obj.GetComponent<Rigidbody>().AddForce(planetForce);
         }

@@ -18,18 +18,19 @@ public class Satelite : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        print(Camera.main.ScreenToWorldPoint(Input.mousePosition));
 	    if(Input.GetMouseButtonDown(0)) {
             Vector3 mousePosition = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y, 0);
-            Vector3 rocketDirection = 
+            Vector3 rocketDirection = mousePosition - transform.position;
             GameObject rocketInstance = (GameObject)Instantiate(rocketPrefab, transform.position, Quaternion.identity);
             rocketInstance.GetComponent<Rigidbody>().velocity = rocketDirection.normalized * rocketSpeed;
         }
+
 	}
 
     void FixedUpdate() {
         Vector3 angularVelocity = Get2DNormal(gameObject.transform.position - earth.transform.position).normalized;
         rBody.velocity = Input.GetAxis("Horizontal") * orbitSpeed * angularVelocity;
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
         transform.position = earth.transform.position + (gameObject.transform.position - earth.transform.position).normalized * initialDistance;
     }
 
