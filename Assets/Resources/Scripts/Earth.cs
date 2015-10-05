@@ -2,11 +2,11 @@
 using System.Collections;
 
 public class Earth : MonoBehaviour {
-    Rigidbody rBody;
+    Rigidbody2D rBody;
     GameObject rocketPrefab;
 	// Use this for initialization
 	void Start () {
-        rBody = GetComponent<Rigidbody>();
+        rBody = GetComponent<Rigidbody2D>();
         rocketPrefab = (GameObject)Resources.Load("Prefabs/Rocket");
 	}
 	

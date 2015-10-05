@@ -55,7 +55,7 @@ public class AsteroidSpawner : MonoBehaviour {
                 }
             }
             GameObject asteroidInstance = (GameObject)Instantiate(asteroidPrefab, spawnPos, Quaternion.identity);
-            asteroidInstance.GetComponent<Rigidbody>().velocity = (-spawnPos.normalized + initialVelocity * 10);
+            asteroidInstance.GetComponent<Rigidbody2D>().velocity = (-spawnPos.normalized + initialVelocity * 10);
         }
         yield return new WaitForSeconds(asteroidSpawnDelay);
         StartCoroutine(SpawnAsteroid());

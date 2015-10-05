@@ -13,7 +13,7 @@ public class Frame : MonoBehaviour {
 	
 	}
 
-    void OnCollisionEnter(Collision col) {
+    void OnCollisionEnter2D(Collision2D col) {
         Destroy(col.gameObject);
     }
 }

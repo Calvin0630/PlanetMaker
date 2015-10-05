@@ -18,10 +18,10 @@ public class GravityManager : MonoBehaviour {
         Vector3 planetForce = Vector3.zero;
         foreach (GameObject obj in asteroids) {
             foreach (GameObject planet in planets) {
-                float planetForceMagnitude = GetGravitationalForce(planet.GetComponent<Rigidbody>().mass, obj.GetComponent<Rigidbody>().mass, Vector3.Distance(obj.transform.position, planet.transform.position));
+                float planetForceMagnitude = GetGravitationalForce(planet.GetComponent<Rigidbody2D>().mass, obj.GetComponent<Rigidbody2D>().mass, Vector3.Distance(obj.transform.position, planet.transform.position));
                 planetForce += gravityStrength * planetForceMagnitude * (planet.transform.position - obj.transform.position).normalized;
             }
-            obj.GetComponent<Rigidbody>().AddForce(planetForce);
+            obj.GetComponent<Rigidbody2D>().AddForce(planetForce);
         }
     }
 
